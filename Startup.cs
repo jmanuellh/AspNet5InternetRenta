@@ -37,7 +37,7 @@ namespace AspNet5InternetRenta
 
             services.AddDbContext<InternetRentaContext>
             (
-                opt => opt.UseSqlServer("TodoList")
+                opt => opt.UseSqlServer(Configuration["negocioConeccion"])
             );
         }
 
