@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using AspNet5InternetRenta.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNet5InternetRenta
 {
@@ -32,6 +34,11 @@ namespace AspNet5InternetRenta
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AspNet5InternetRenta", Version = "v1" });
             });
+
+            services.AddDbContext<InternetRentaContext>
+            (
+                opt => opt.UseSqlServer("TodoList")
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
