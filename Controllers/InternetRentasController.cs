@@ -78,6 +78,11 @@ namespace AspNet5InternetRenta.Controllers
         [HttpPost]
         public async Task<ActionResult<InternetRenta>> PostInternetRenta(InternetRenta internetRenta)
         {
+            if (internetRenta.Nombre is null || internetRenta.Cantidad is 0)
+            {
+                return Ok();                
+            }
+
             _context.InternetRentas.Add(internetRenta);
             await _context.SaveChangesAsync();
 
