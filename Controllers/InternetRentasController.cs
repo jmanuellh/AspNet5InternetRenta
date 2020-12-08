@@ -113,7 +113,7 @@ namespace AspNet5InternetRenta.Controllers
             return _context.InternetRentas.Any(e => e.Id == id);
         }
 
-        // GET: api/InternetRentas/descargar
+        // GET: api/InternetRentas/descargarExcel
         [HttpGet("descargarExcel")]
         public async Task<FileContentResult> getExcelInternetRentas()
         {
@@ -139,36 +139,23 @@ namespace AspNet5InternetRenta.Controllers
                 //Create the WorkSheet
                 ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Internet rentas");
 
-                var rentas = await _context.InternetRentas.ToListAsync();
-
                 worksheet.Cells[1,1].Value = "Cortado";
                 worksheet.Cells[1,2].Value = "Nombre";
                 worksheet.Cells[1,3].Value = "Fecha corte";
                 worksheet.Cells[1,4].Value = "Cantidad";
 
-                // for (int i = 0; i < rentas.Count(); i++)
-                // {
-                //     worksheet.Cells[i+2,1] = rentas.get.cortado;
-                //     worksheet.Cells[i+2,2] = rentas[i].nombre;
-                //     worksheet.Cells[i+2,3] = rentas[i].fechaCorte;
-                //     worksheet.Cells[i+2,4] = rentas[i].cantidad;
-                // }
+                var rentas = await _context.InternetRentas.ToListAsync();
 
                 int contador = 0;
                 foreach (var renta in rentas)
                 {
                     worksheet.Cells[contador+2, 1].Value = renta.Cortado;
                     worksheet.Cells[contador+2, 2].Value = renta.Nombre;
-                    worksheet.Cells[contador+2, 3].Value = renta.FechaCorte.ToString("d", CultureInfo.CreateSpecificCulture("es-ES"));
+                    worksheet.Cells[contador+2, 3].Value = renta.FechaCorte.ToString("d", CultureInfo.CreateSpecificCulture("es-MX"));
                     worksheet.Cells[contador+2, 4].Value = renta.Cantidad;
                     contador++;
                 }
 
-
-                // //Save your file
-                // FileInfo fi = new FileInfo(@"Path\To\Your\File.xlsx");
-                // excelPackage.SaveAs(fi);
-                // return new MemoryStream(excelPackage.GetAsByteArray());
                 return excelPackage.GetAsByteArray();
             }
         }
